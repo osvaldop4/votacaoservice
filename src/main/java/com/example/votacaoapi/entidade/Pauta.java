@@ -1,6 +1,7 @@
 package com.example.votacaoapi.entidade;
 
 import java.util.Objects;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,18 +12,26 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 public class Pauta extends AbstractEntity {
 	
 	@Id
 	@Column(nullable = false, updatable = false)
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)	
 	private int idPauta;
+	
 	@OneToOne(mappedBy = "pauta", fetch = FetchType.LAZY, cascade = CascadeType.ALL,optional=true )
 	@JoinColumn(name="idSessaoFk")
+	@JsonBackReference
 	private Sessao sessao;
+	
 	@Column(nullable = false)
 	private String descricaoPauta;
+	
+	@JsonManagedReference
 	@OneToOne(mappedBy = "pauta",fetch=FetchType.LAZY,cascade=CascadeType.ALL,orphanRemoval=true)
 	private Voto voto;
 

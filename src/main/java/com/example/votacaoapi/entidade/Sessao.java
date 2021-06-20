@@ -12,6 +12,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 public class Sessao extends AbstractEntity {
 	
@@ -21,6 +23,7 @@ public class Sessao extends AbstractEntity {
 	private int idSessao;
 	private ZonedDateTime inicioSessao;
 	private ZonedDateTime fimSessao;
+	@JsonManagedReference
 	@OneToOne(mappedBy= "sessao",fetch=FetchType.LAZY,cascade=CascadeType.ALL,optional=true)	
 	private Pauta pauta;
 	
