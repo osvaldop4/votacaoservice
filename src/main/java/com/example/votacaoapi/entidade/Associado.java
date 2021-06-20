@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
 import com.example.votacaoapi.entidade.AbstractEntity;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 @Entity
 public class Associado extends AbstractEntity {
 	
@@ -19,10 +20,13 @@ public class Associado extends AbstractEntity {
 	@Column(nullable = false, updatable = false)	
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int idAssociado;
+	
 	@Column(nullable = false)	
 	private String nome;
+	@JsonManagedReference
 	@OneToOne(fetch=FetchType.LAZY,mappedBy="associado",cascade=CascadeType.ALL,orphanRemoval=true)	
 	private Voto voto;
+	
 	@Column(nullable=false,unique=true)
 	private String cpf;
 	

@@ -13,38 +13,45 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.example.votacaoapi.entidade.Pauta;
-import com.example.votacaoapi.services.PautaService;
+import com.example.votacaoapi.entidade.Voto;
+import com.example.votacaoapi.services.VotoService;
 
 @RestController
-@RequestMapping(name="/pauta")
-public class PautaResource {
+@RequestMapping(name="/voto")
+public class VotoResource {
 	
 	@Autowired
-	private PautaService pautaService;
+	private VotoService votoService;
 	
 	@RequestMapping(method=RequestMethod.GET)
-	public List<Pauta> listar(){
+	public List<Voto> listar(){
 		
-		List<Pauta> lista =new ArrayList<Pauta>();
-		Pauta pauta = new Pauta();
-		lista.add(pauta);		
+		List<Voto> lista =new ArrayList<Voto>();
+		Voto voto = new Voto();
+		lista.add(voto);		
 		return lista;
 		
 	}
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 	public ResponseEntity<?> find(@PathVariable Integer id) {
-		Pauta obj = pautaService.find(id);
+		Voto obj = votoService.find(id);
 		return ResponseEntity.ok().body(obj);
 	}
 	
 	@RequestMapping(method=RequestMethod.POST)
-	public ResponseEntity<Void> insert(@RequestBody Pauta obj) {
-	obj = pautaService.insert(obj);
+	public ResponseEntity<Void> insert(@RequestBody Voto obj) {
+	obj = votoService.insert(obj);
 	URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
 		.path("/{id}").buildAndExpand(obj.getId()).toUri();
 	return ResponseEntity.created(uri).build();
 }
+	
+	@RequestMapping(value = "/count", method = RequestMethod.GET)
+	public long countEntities() {
+		long countTrue = votoService.getCountVotoTrue();
+		long countFalse= votoService.getCountVotoFalse();
+		return countTrue + countFalse;
+	}
 
 }

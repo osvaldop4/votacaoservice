@@ -11,17 +11,23 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 public class Voto extends AbstractEntity{
 	
 	@Id
 	@Column(nullable = false, updatable = false)
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int idVoto;
+	
 	@Column(nullable=false,unique=true)
 	private boolean voto;
+	@JsonBackReference
 	@OneToOne(fetch=FetchType.LAZY,mappedBy="voto",cascade=CascadeType.ALL,orphanRemoval=true)
-	@JoinColumn(name="idPautaFk")
+	@JoinColumn(name="idPautaFk")	
 	private Pauta pauta;
+	
+	@JsonBackReference
 	@OneToOne(fetch=FetchType.LAZY,mappedBy="voto",cascade=CascadeType.ALL,orphanRemoval=true)
 	@JoinColumn(name="idAssociadoFk")
 	private Associado associado;
